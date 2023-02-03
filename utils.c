@@ -40,14 +40,15 @@ int	ft_err_msg(const char *msg)
 	return (-1);
 }
 
-void ft_free(t_data *philo)
+void ft_free(t_data *philo, int size)
 {
     int i;
 
     i = 0;
-    while (philo[i])
+    // free(philo->end);
+    while (i < size)
     {
-        free(philo[i]);
+        free(&philo[i]);
         i++;
     }
     free(philo);
