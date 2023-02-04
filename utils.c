@@ -40,16 +40,27 @@ int	ft_err_msg(const char *msg)
 	return (-1);
 }
 
-void ft_free(t_data *philo, int size)
+void free_mutex(t_data	*philo, int	size)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    // free(philo->end);
-    while (i < size)
-    {
-        free(&philo[i]);
-        i++;
-    }
-    free(philo);
+	i = 0;
+	while(i < size)
+	{
+		pthread_mutex_unlock(&philo[i].forks);
+		pthread_mutex_destroy(&philo[i].forks);
+		i++;
+	}
+}
+
+void	free_thread(t_data *philos, int size)
+{
+	int	i;
+
+	i = 0;
+	while(i < size)
+	{
+		pthread_detach(philos[i].thread);
+		i++;
+	}
 }

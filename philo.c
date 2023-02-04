@@ -37,15 +37,14 @@ int	main(int argc, char **argv)
 	{
 		printf("Wrong argument umber!\nTIP: number_of_philosophers time_to_die time");
 		printf("_to_eat time_to_sleep\n[number_of_times_each_philosopher_must_eat]");
+		return (0);
 	}
-	// else
-	// {
-		philo = ft_initialize(argv, philo);
-		ft_test(philo, ft_atoi(argv[1]));
-		// // if (ft_letthemeat(&philo));
-	// }
-	// ft_free(philo, philo->size);
-	// free(philo->end);
+	philo = ft_initialize(argv, philo);
+	if (!philo)
+		return(ft_err_msg("Err in init!\n"));
+	// ft_test(philo, ft_atoi(argv[1]));
+	free_mutex(philo, philo->size);
+	free_thread(philo, philo->size);
 	free(philo->end);
 	free(philo);
 	return (0);

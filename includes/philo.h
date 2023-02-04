@@ -32,18 +32,19 @@ typedef struct s_data
 	int		t2_eat;
 	int		t2_sleep;
     int     *end;
-//     struct timeval	t_begin;
-//     struct timeval	t_now;
-//     pthread_t	philo;
-//     pthread_mutex_t	*forks;
-//     pthread_mutex_t	*control;
+    pthread_t	thread;
+    pthread_mutex_t	forks;
+    pthread_mutex_t	*control;
 }   t_data;
 
 int	ft_atoi(const char *nptr);
 int	ft_err_msg(const char *msg);
 
 t_data *ft_initialize(char **argv, t_data *philo);
+void	*routine(void *philos);
 
-void ft_free(t_data *philo, int size);
+
+void free_mutex(t_data	*philo, int	size);
+void	free_thread(t_data *philos, int size);
 
 #endif
