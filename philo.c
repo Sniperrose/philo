@@ -42,7 +42,8 @@ int	main(int argc, char **argv)
 	philo = ft_initialize(argv, philo);
 	if (!philo)
 		return(ft_err_msg("Err in init!\n"));
-	// ft_test(philo, ft_atoi(argv[1]));
+
+	/*free test*/
 	free_mutex(philo, philo->size);
 	free_thread(philo, philo->size);
 	free(philo->end);

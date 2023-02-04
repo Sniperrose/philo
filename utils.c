@@ -40,27 +40,13 @@ int	ft_err_msg(const char *msg)
 	return (-1);
 }
 
-void free_mutex(t_data	*philo, int	size)
+long	ft_timestamp(struct timeval start)
 {
-	int	i;
+	long	ms;
+	struct timeval	end;
 
-	i = 0;
-	while(i < size)
-	{
-		pthread_mutex_unlock(&philo[i].forks);
-		pthread_mutex_destroy(&philo[i].forks);
-		i++;
-	}
-}
-
-void	free_thread(t_data *philos, int size)
-{
-	int	i;
-
-	i = 0;
-	while(i < size)
-	{
-		pthread_detach(philos[i].thread);
-		i++;
-	}
+	gettimeofday(&end, NULL);
+	ms = (((end.tv_sec * 1000) + (end.tv_usec / 1000)) - 
+			((start.tv_sec * 1000) + (start.tv_usec / 1000)));
+	return (ms);
 }

@@ -3,12 +3,15 @@
 void     ft_init_args(t_data *philo, char **argv, int size, int *end)
 {
     int i;
-
+    struct timeval time;
+    
     i = 0;
     if (argv[5])
         end[1] = ft_atoi(argv[5]);
     else
         end[1] = -1;
+
+    gettimeofday(&time, NULL);
     while (i < size)
     {
         philo[i].size = size;
@@ -18,6 +21,7 @@ void     ft_init_args(t_data *philo, char **argv, int size, int *end)
         philo[i].id = i;
         philo[i].l_fork = (i + 1) % size;
         philo[i].r_fork = i;
+        philo[i].t_start = time;
         philo[i].end = end;
         i++;
     }
@@ -34,11 +38,7 @@ int ft_init_threads(t_data *philo, int size)
 		{
 			return (ft_err_msg("Error in pthread_create!\n"));
 		}
-        // if (pthread_join(philo[i].thread, NULL) != 0)
-		// {
-		// 	return (ft_err_msg("Error in pthread_join!\n"));
-		// }
-		usleep(100);
+		usleep(50);
 		i++;
 	}
     return (0);
@@ -51,10 +51,11 @@ int ft_init_mutex(t_data *philo, int size)
     i = 0;
     while(i < size)
 	{
-		if (pthread_mutex_init(&philo[i].forks, NULL) != 0)
+		if (pthread_mutex_init(&philo[i].fork, NULL) != 0)
 		{
 			return (ft_err_msg("Mutex_init error!\n"));
 		}
+        usleep(100);
 		i++;
 	}
     return (0);
