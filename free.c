@@ -22,6 +22,7 @@ void	free_thread(t_data *philos, int size)
 	i = 0;
 	while(i < size)
 	{
+		// pthread_join(philos[i].thread, NULL);
 		pthread_detach(philos[i].thread);
 		i++;
 	}

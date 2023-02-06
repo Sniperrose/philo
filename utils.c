@@ -40,7 +40,7 @@ int	ft_err_msg(const char *msg)
 	return (-1);
 }
 
-long	ft_timestamp(struct timeval start)
+int	ft_timestamp(struct timeval start)
 {
 	long	ms;
 	struct timeval	end;

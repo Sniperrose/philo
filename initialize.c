@@ -63,6 +63,12 @@ int ft_init_threads(t_data *philo, int size)
 		usleep(50);
 		i++;
 	}
+    i = 0;
+    while(i < size)
+    {
+        pthread_join(philo[i].thread, NULL);
+        i++;
+    }
     return (0);
 }
 

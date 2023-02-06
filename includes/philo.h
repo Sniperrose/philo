@@ -33,7 +33,7 @@ typedef struct s_data
 	int		t2_sleep;
     int     *end;
     struct timeval  t_start;
-    long int   t_lasteat;
+    struct timeval  t_lasteat;
     pthread_t	thread;
     pthread_mutex_t	*fork;
     pthread_mutex_t	*control;
@@ -41,7 +41,7 @@ typedef struct s_data
 
 int	ft_atoi(const char *nptr);
 int	ft_err_msg(const char *msg);
-long	ft_timestamp(struct timeval start);
+int	ft_timestamp(struct timeval start);
 
 t_data *ft_initialize(char **argv, t_data *philo);
 void	*routine(void *philos);
