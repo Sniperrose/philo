@@ -45,6 +45,12 @@ int	main(int argc, char **argv)
 
 	/*free test*/
 	free_mutex(philo, philo->size);
+	int	i = 0;
+	while (i < ft_atoi(argv[1]))
+	{
+		free(&philo[i]);
+		i++;
+	}
 	free_thread(philo, philo->size);
 	free(philo->end);
 	free(philo);

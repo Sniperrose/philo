@@ -35,7 +35,7 @@ typedef struct s_data
     struct timeval  t_start;
     long int   t_lasteat;
     pthread_t	thread;
-    pthread_mutex_t	fork;
+    pthread_mutex_t	*fork;
     pthread_mutex_t	*control;
 }   t_data;
 

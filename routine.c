@@ -6,43 +6,18 @@ void	*routine(void *philos)
 
     philo = (t_data *) philos;
 
-    printf("start time:%ldms | ", philo->t_start.tv_usec / 1000);
-    printf("%lums | ", ft_timestamp(philo->t_start));
-    printf("philo[%d] started\n", philo->id);
+    // printf("%lums | ", ft_timestamp(philo->t_start));
+    // printf("philo[%d] started\n", philo->id);
     // pthread_mutex_lock(&philo[philo->r_fork].forks);
     // printf("[%d] took a right fork[%d]\n", philo->id, philo->r_fork);
     // pthread_mutex_unlock(&philo[philo->r_fork].forks);
+
+
+    printf("[%lums] philo[%d] ", ft_timestamp(philo->t_start), philo->id);
+	printf(" t2_die:%d, t2_eat:%d, t_sleep:%d", 
+        philo->t2_die, philo->t2_eat, philo->t2_sleep);
+	printf(" | forks[%d&%d]", philo->r_fork, philo->l_fork);
+	printf(" | end[0]=%d, end[1]=%d\n", philo->end[0], philo->end[1]);
+
 	return (NULL);	
 }
-
-
-// void	*routine(void *philos)
-// {
-//     t_data  *philo;
-
-//     philo = (t_data *) philos;
-
-
-//     // printf("philo[%d]\n", philo->id);
-
-//     // if ((philo->id % 2) != 0)
-//     // {
-//     //     printf("[%d] must wait\n", philo->id);
-//     //     usleep(100);
-//     // }
-//     // pthread_mutex_lock(&philo[philo->l_fork].forks);
-//     // printf("[%d] took a left fork[%d]\n", philo->id, philo->l_fork);
-//     pthread_mutex_lock(&philo[philo->r_fork].forks);
-//     printf("[%d] took a right fork[%d]\n", philo->id, philo->r_fork);
-
-//     // pthread_mutex_lock(philo->control);
-//     // printf("lock cntl\n");
-//     // usleep(100);
-
-//     // pthread_mutex_unlock(&philo[philo->l_fork].forks);
-//     // printf("-[%d] put a left fork[%d]\n", philo->id, philo->l_fork);
-//     pthread_mutex_unlock(&philo[philo->r_fork].forks);
-//     // printf("-[%d] put a right fork[%d]\n", philo->id, philo->r_fork);
-//     // pthread_mutex_unlock(philo->control);
-// 	return (philo);	
-// }
