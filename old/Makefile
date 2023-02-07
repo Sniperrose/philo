@@ -1,7 +1,10 @@
 NAME = philo
 
-SRCS =	philo_main.c\
+SRCS =	philo.c\
+		initialize.c\
 		utils.c\
+		free.c\
+		controls.c\
 
 INCLUDE	= includes
 

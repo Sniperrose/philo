@@ -12,20 +12,15 @@
 
 #include "includes/philo.h"
 
-
-void	ft_test(t_data *philo, int size)
+int ft_check_args(char **argv, int size)
 {
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		printf("philo[%d], t2_die:%d, t2_eat:%d, t_sleep:%d", 
-			philo[i].id, philo[i].t2_die, philo[i].t2_eat, philo[i].t2_sleep);
-		printf(" | forks[%d&%d]", philo[i].r_fork, philo[i].l_fork);
-		printf(" | end[0]=%d, end[1]=%d\n", philo[i].end[0], philo[i].end[1]);
-		i++;
-	}
+    if (size <= 0 || size > 200)
+        return (ft_msg("N of philos must be 0 < N < 201"));
+    if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0 || ft_atoi(argv[4]) <= 0)
+        return (ft_msg("Error in args!\n"));
+    if (argv[5] && ft_atoi(argv[1]) >= 0)
+        return (ft_msg("Error in args!\n"));
+    return (1);
 }
 
 int	main(int argc, char **argv)
@@ -35,18 +30,20 @@ int	main(int argc, char **argv)
 	philo = NULL;
 	if (argc != 5 && argc != 6)
 	{
-		printf("Wrong argument umber!\nTIP: number_of_philosophers time_to_die time");
-		printf("_to_eat time_to_sleep\n[number_of_times_each_philosopher_must_eat]");
+		printf("TIP: number_of_philosophers time_to_die time");
+		printf("_to_eat time_to_sleep\n[number_of_times_must_eat]");
 		return (0);
 	}
+	if (!ft_check_args(argv, ft_atoi(argv[1])))
+        return (0);
 	philo = ft_initialize(argv, philo);
 	if (!philo)
-		return(ft_err_msg("Err in init!\n"));
-
-	/*free test*/
-	free_mutex(philo, philo->size);
-	// free_thread(philo, philo->size);
-	free(philo->end);
-	free(philo);
+	{
+		ft_free(philo, philo->size);
+		return(0);
+	}
+	if (!ft_startphilo(philo, philo->size))
+		printf("pthread_create err!\n");
+	ft_free(philo, philo->size);
 	return (0);
 }

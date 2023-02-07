@@ -1,6 +1,5 @@
 #include "includes/philo.h"
 
-
 int	ft_atoi(const char *nptr)
 {
 

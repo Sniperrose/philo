@@ -35,30 +35,28 @@ typedef struct s_data
     int     *end;
     struct timeval  t_start;
     struct timeval  t_lasteat;
-
+    
     pthread_t	thread;
-    pthread_mutex_t	*fork;
+    pthread_t   death_check;
+
+    pthread_mutex_t	fork;
+    pthread_mutex_t eat;
     pthread_mutex_t	*control;
+    pthread_mutex_t *msg;
 }   t_data;
 
 int	ft_atoi(const char *nptr);
 int	ft_msg(const char *msg);
-
-int     ft_init_mutex(t_data *philo, int size);
-
-
-
-// int	ft_timestamp(struct timeval start);
-// void    ft_print(int ms, int id, char *msg);
+int	ft_timestamp(struct timeval start);
+void    ft_print(int ms, int id, char *msg);
 
 
-// t_data *ft_initialize(char **argv, t_data *philo);
-// void	*routine(void *philos);
-// void	ft_control(t_data *philo);
+t_data *ft_initialize(char **argv, t_data *philo);
+void	*routine(void *philos);
+void	ft_control(t_data *philo);
+void ft_init_threads(t_data *philo, int size);
 
 
-// void free_mutex(t_data	*philo, int	size);
-// void	free_thread(t_data *philos, int size);
-
+void	ft_free(t_data *philo, int size);
 
 #endif
