@@ -54,7 +54,7 @@ void    ft_print(int ms, int id, char *msg);
 t_data *ft_initialize(char **argv, t_data *philo);
 void	*routine(void *philos);
 void	ft_control(t_data *philo);
-void ft_init_threads(t_data *philo, int size);
+int     ft_startphilo(t_data *philo, int size);
 
 
 void	ft_free(t_data *philo, int size);

@@ -8,24 +8,33 @@ void	*routine(void *philos)
 
     if ((philo->id % 2) != 0)
         usleep(100);
-    if (ft_lockfork(philo))
+    while (/* condition */)
     {
-        ft_eat(philo);
-        ft_sleep(philo);
+        /* code */
     }
-    ft_think(philo);
+
     return NULL;
 }
 
 
 
-int ft_startphilo(t_data *philos, int size)
+int ft_startphilo(t_data *philo, int size)
 {
     int i;
 
     i = 0;
     while (i < size)
     {
-
+        if (pthread_create(&philo[i].thread, NULL, routine, NULL) != 0)
+            return (0);
+        usleep(100);
+        i++;
+    }
+    i = 0;
+    while(i < size)
+    {
+        if (pthread_join(philo[i].thread, NULL) != 0)
+            return (0);
+        i++;
     }
 }
