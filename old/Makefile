@@ -4,7 +4,7 @@ SRCS =	philo.c\
 		initialize.c\
 		utils.c\
 		free.c\
-		controls.c\
+		routine.c\
 
 INCLUDE	= includes
 

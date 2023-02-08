@@ -45,7 +45,7 @@ int	ft_atoi(const char *nptr);
 int	ft_msg(const char *msg);
 
 int     ft_init_mutex(t_data *philo, int size);
-
+int ft_startphilo(t_data *philo, int size);
 
 
 // int	ft_timestamp(struct timeval start);
