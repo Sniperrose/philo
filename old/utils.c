@@ -67,3 +67,10 @@ void	ft_printstat(t_data *philo, char *str)
 	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
 	pthread_mutex_unlock(philo->msg);
 }
+
+void	ft_print(t_data *philo, char *str)
+{
+	pthread_mutex_lock(philo->msg);
+	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
+	pthread_mutex_unlock(philo->msg);
+}

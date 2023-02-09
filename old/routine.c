@@ -80,6 +80,16 @@ void    *death_check(void *philos)
     return NULL;
 }
 
+void    *routine2(void  *philo)
+{
+    t_data  *ph;
+
+    ph = (t_data *) philo;
+    ft_print(ph, "test ...\n");
+        // printf("ph_%d in pthread\n", ph->id);
+    return (NULL);
+}
+
 int ft_startphilo(t_data *philo, int size)
 {
     int i;
@@ -87,18 +97,18 @@ int ft_startphilo(t_data *philo, int size)
     i = 0;
     while (i < size)
     {
-        if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
+        if (pthread_create(&philo[i].thread, NULL, routine2, &philo[i]) != 0)
             return (0);
         usleep(100);
         i++;
     }
-    i = 0;
-    while (i < size)
-    {
-        if (pthread_create(&philo->death_check, NULL, death_check, &philo[i]) != 0)
-            return (0);
-        i++;
-    }
+    // i = 0;
+    // while (i < size)
+    // {
+    //     if (pthread_create(&philo->death_check, NULL, death_check, &philo[i]) != 0)
+    //         return (0);
+    //     i++;
+    // }
     i = 0;
     while(i < size)
     {
@@ -106,7 +116,7 @@ int ft_startphilo(t_data *philo, int size)
             return (0);
         i++;
     }
-    if (pthread_join(philo->death_check, NULL) != 0)
-        return (0);
+    // if (pthread_join(philo->death_check, NULL) != 0)
+    //     return (0);
     return (1);
 }

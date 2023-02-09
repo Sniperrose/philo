@@ -49,6 +49,7 @@ int		ft_atoi(const char *nptr);
 int		ft_msg(const char *msg);
 int		ft_timestamp(struct timeval start);
 void	ft_printstat(t_data *philo, char *str);
+void	ft_print(t_data *philo, char *str);
 t_data	*ft_initialize(char **argv, t_data *philo);
 void	*routine(void *philos);
 int		ft_startphilo(t_data *philo, int size);

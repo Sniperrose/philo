@@ -23,14 +23,44 @@ int	ft_check_args(char **argv, int size)
 	return (1);
 }
 
+// int	ft_init_mutex(t_data *philo)
+// {
+// 	pthread_mutex_t	*ctrl;
+// 	pthread_mutex_t	*msg;
+// 	int	i;
+
+// 	ctrl = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+// 	msg = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+// 	if (!ctrl || !msg)
+// 		return (0);
+// 	pthread_mutex_init(ctrl, NULL);
+// 	pthread_mutex_init(msg, NULL);
+// 	i = 0;
+// 	while (i < philo->size)
+// 	{
+// 		philo[i].msg = msg;
+// 		philo[i].control = ctrl;
+// 		i++;
+// 	}
+// 	return (1);
+// }
+
 void	ft_init_philos(t_data *philo, char **argv, int size, int *end)
 {
 	int				i;
 	struct timeval	time;
+	pthread_mutex_t	*ctrl;
+	pthread_mutex_t	*msg;
 
 	(void) end;
 	i = 0;
 	gettimeofday(&time, NULL);
+	ctrl = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	msg = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	if (!ctrl || !msg)
+		return ;
+	pthread_mutex_init(ctrl, NULL);
+	pthread_mutex_init(msg, NULL);
 	while (i < size)
 	{
 		philo[i].size = size;
@@ -46,6 +76,8 @@ void	ft_init_philos(t_data *philo, char **argv, int size, int *end)
 		memset(&philo[i].t_lasteat, 0, sizeof(struct timeval));
 		pthread_mutex_init(&philo[i].fork, NULL);
 		pthread_mutex_init(&philo[i].eat, NULL);
+		philo[i].msg = msg;
+		philo[i].control = ctrl;
 		philo[i].end = end;
 		i++;
 	}
@@ -69,6 +101,8 @@ t_data	*ft_initialize(char **argv, t_data *philo)
 	memset(end, -1, 2 * sizeof(int));
 	if (argv[5])
 		end[1] = ft_atoi(argv[5]);
+	// if (!ft_init_mutex(philo))
+	// 	return (NULL);
 	ft_init_philos(philo, argv, size, end);
 	return (philo);
 }
