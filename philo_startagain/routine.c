@@ -31,6 +31,8 @@ void    ft_try_tookRside(t_data *philo)
 {
     // if (pthread_mutex_lock(&philo->forks[philo->r_sidefork_id]) == 0)
     //     printf("+++%dth fork mutex lock succ!\n", philo->id);
+    if ((ft_timestamp(philo->t_start) - philo->t_last) < philo->arg->die)
+        usleep(100);
     pthread_mutex_lock(&philo->forks[philo->r_sidefork_id]);
     ft_printstatus(philo, "took a fork\n");
 }
@@ -82,7 +84,7 @@ void    *routine(void *philo)
     }
     while (1)
     {
-        if (ph->n_eaten == ph->arg->n_eat)
+        if (ph->n_eaten == ph->arg->n_eat || ph->end[0] || ph->end[1])
             break;
         ft_try_tookRside(ph);
         ft_try_tookLside(ph);
@@ -90,7 +92,6 @@ void    *routine(void *philo)
         ft_sleep(ph);
         ft_put_theforks(ph);
         ft_think(ph);
-
     }
     return (NULL);
 }
@@ -102,7 +103,34 @@ void    *routine(void *philo)
     // test_print(ph);
     // printf("----+----\n");
     // printf("----end[0]=%d----\n", ph->end[0]);
+void    *ft_ifdied(void *philo)
+{
+    t_data *ph;
+    int i;
 
+    ph = (t_data *) philo;
+    while (1)
+    {
+        usleep(10000);
+        i = 0;
+        while (i < ph->arg->size)
+        {
+
+            if ((ft_timestamp(ph->t_start) - ph->t_last) > ph->arg->die)
+            {
+                if (pthread_mutex_lock(ph->control) == 0)
+                    printf("ctrl mutex lock succ!\n");
+                ft_printstatus(ph, "died!");
+                ph->end[0] = 1;
+                if (pthread_mutex_unlock(ph->control) == 0)
+                    printf("ctrl mutex unlock succ!\n");
+                break;
+            }
+            i++;
+        }
+    }
+    return NULL;
+}
 
 int ft_startroutine(t_data *philo, int size)
 {
@@ -113,9 +141,11 @@ int ft_startroutine(t_data *philo, int size)
     {
         if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
             return (ft_msg("pthread_create err!\n"));
-        usleep(1000);
+        usleep(100);
         i++;
     }
+    // if (pthread_create(&philo->death_check, NULL, ft_ifdied, &philo) != 0)
+    //         return (ft_msg("pthread_create err!\n"));
     i = 0;
     while (i < size)
     {
@@ -124,6 +154,8 @@ int ft_startroutine(t_data *philo, int size)
         usleep(100);
         i++;
     }
+    // if (pthread_join(philo->death_check, NULL) != 0)
+    //     return (ft_msg("pthread_join err!\n"));
     // ft_ptest(philo, size);
     // printf("routine test!\n");
     return (1);

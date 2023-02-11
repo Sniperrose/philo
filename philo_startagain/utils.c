@@ -54,8 +54,8 @@ void ft_printstatus(t_data *philo, char *msg)
 	// if (pthread_mutex_lock(philo->message) == 0)
     //     printf("msg mutex lock succ!\n");
 	pthread_mutex_lock(philo->message);
-	printf("%d ms\t", ft_timestamp(philo->t_start));
-	printf("%d_philo\t", philo->id);
+	printf("%dms\t", ft_timestamp(philo->t_start));
+	printf("ph'%d\t", philo->id);
 	printf("%s", msg);
 	pthread_mutex_unlock(philo->message);
 	// if (pthread_mutex_unlock(philo->message) == 0)
