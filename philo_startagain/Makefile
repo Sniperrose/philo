@@ -5,6 +5,7 @@ SRCS =	main.c\
 		init.c\
 		free.c\
 		routine.c\
+		pick_release.c\
 
 INCLUDE	= includes
 

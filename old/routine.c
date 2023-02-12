@@ -64,8 +64,6 @@ void	*routine(void *philos)
     t_data  *philo;
 
     philo = (t_data *) philos;
-
-
     while(philo->end[0] != 0)
     {
         if (philo->size == 1)
