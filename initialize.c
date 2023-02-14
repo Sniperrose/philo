@@ -12,31 +12,19 @@
 
 #include "includes/philo.h"
 
-int	ft_check_args(char **argv, int size)
-{
-	if (size <= 0 || size > 200)
-		return (ft_msg("N of philos must be 0 < N < 201\n"));
-	if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0 || ft_atoi(argv[4]) <= 0)
-		return (ft_msg("Error in args!\n"));
-	if (argv[5] && ft_atoi(argv[5]) <= 0)
-		return (ft_msg("Error in args!\n"));
-	return (1);
-}
-
-void	ft_init_philos(t_data *philo, char **argv, int size, int *end)
+void	ft_init_args(t_data *philo, char **argv, int size, int *end)
 {
 	int				i;
 	struct timeval	time;
 
-	(void) end;
 	i = 0;
 	gettimeofday(&time, NULL);
 	while (i < size)
 	{
 		philo[i].size = size;
 		philo[i].id = i;
-		philo[i].l_fork = (i + 1) % size;
-		philo[i].r_fork = i;
+		philo[i].l_side = (i + 1) % size;
+		philo[i].r_side = i;
 		philo[i].t2_die = ft_atoi(argv[2]);
 		philo[i].t2_eat = ft_atoi(argv[3]);
 		philo[i].t2_sleep = ft_atoi(argv[4]);
@@ -50,24 +38,17 @@ void	ft_init_philos(t_data *philo, char **argv, int size, int *end)
 	}
 }
 
-t_data	*ft_initialize(char **argv, t_data *philo)
+int	ft_initialize(char **argv, t_data *philo)
 {
 	int	size;
 	int	*end;
 
-	if (!ft_check_args(argv, ft_atoi(argv[1])))
-		return (NULL);
 	size = ft_atoi(argv[1]);
 	philo = malloc(sizeof(t_data) * size);
 	if (!philo)
-		return (NULL);
-	// memset(philo, 0, size * sizeof(t_data));
-	end = malloc(sizeof(int) * 2);
-	if (!end)
-		return (NULL);
-	memset(end, -1, 2 * sizeof(int));
-	if (argv[5])
-		end[1] = ft_atoi(argv[5]);
-	ft_init_philos(philo, argv, size, end);
-	return (philo);
+		return (0);
+	end = malloc (sizeof(int) * 2);
+	memset(end, 0, sizeof(int));
+	ft_init_args(philo, argv, size, end);
+	return (1);
 }

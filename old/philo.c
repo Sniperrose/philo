@@ -35,7 +35,11 @@ int	main(int argc, char **argv)
 	philo->msg = &msg;
 	philo->control = &ctrl;
 	if (!ft_startphilo(philo, philo->size))
+	{
 		printf("pthread_create err!\n");
+		ft_free(philo, philo->size);
+	}
+	// printf("pthread_create err!\n");
 	ft_free(philo, philo->size);
 	return (0);
 }

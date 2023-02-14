@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galtange <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 13:30:33 by galtange          #+#    #+#             */
-/*   Updated: 2023/02/08 13:31:34 by galtange         ###   ########.fr       */
+/*   Created: 2023/02/12 18:34:17 by galtange          #+#    #+#             */
+/*   Updated: 2023/02/14 21:46:51 by galtange         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+// #include "includes/philo.h"
+#include "philo.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -61,10 +62,19 @@ int	ft_timestamp(struct timeval start)
 	return (ms);
 }
 
-void	ft_printstat(t_data *philo, char *str)
+void	ft_printstatus(t_data *philo, char *msg)
 {
-	pthread_mutex_lock(philo->msg);
-	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
-	pthread_mutex_unlock(philo->msg);
-
+	pthread_mutex_lock(philo->control);
+	if (!philo->end[0] && !philo->end[1])
+	{
+		pthread_mutex_unlock(philo->control);
+		pthread_mutex_lock(philo->message);
+		printf("%d ", ft_timestamp(philo->t_start));
+		printf("%d ", philo->id + 1);
+		printf("%s", msg);
+		pthread_mutex_unlock(philo->message);
+	}
+	else
+		pthread_mutex_unlock(philo->control);
+	return ;
 }

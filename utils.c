@@ -1,11 +1,9 @@
 #include "includes/philo.h"
 
-
 int	ft_atoi(const char *nptr)
 {
-
-	int	i;
-	int	sign;
+	int		i;
+	int		sign;
 	long	num;
 
 	i = 0;
@@ -42,11 +40,18 @@ int	ft_msg(const char *msg)
 
 int	ft_timestamp(struct timeval start)
 {
-	long	ms;
+	long			ms;
 	struct timeval	end;
 
 	gettimeofday(&end, NULL);
-	ms = (((end.tv_sec * 1000) + (end.tv_usec / 1000)) - 
-			((start.tv_sec * 1000) + (start.tv_usec / 1000)));
+	ms = (((end.tv_sec * 1000) + (end.tv_usec / 1000))
+			- ((start.tv_sec * 1000) + (start.tv_usec / 1000)));
 	return (ms);
+}
+
+void	ft_printstat(t_data *philo, char *str)
+{
+	pthread_mutex_lock(philo->msg);
+	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
+	pthread_mutex_unlock(philo->msg);
 }

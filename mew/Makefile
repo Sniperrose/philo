@@ -1,10 +1,11 @@
 NAME = philo
 
-SRCS =	philo_main.c\
+SRCS =	main.c\
 		utils.c\
+		init.c\
 		free.c\
-
-INCLUDE	= includes
+		routine.c\
+		pick_release.c\
 
 OBJS = ${SRCS:.c=.o}
 
@@ -15,10 +16,10 @@ RM = rm -f
 CFLAGS = -Wall -Werror -Wextra -g -pthread
 
 .c.o:
-	${CC} ${CFLAGS} -I ${INCLUDE} -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}: ${OBJS}
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 all : ${NAME}
 
