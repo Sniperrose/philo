@@ -15,8 +15,6 @@
 int	main(int argc, char **argv)
 {
 	t_data			*philo;
-	pthread_mutex_t	ctrl;
-	pthread_mutex_t	msg;
 
 	philo = NULL;
 	if (argc != 5 && argc != 6)
@@ -30,10 +28,6 @@ int	main(int argc, char **argv)
 	philo = ft_initialize(argv, philo);
 	if (!philo)
 		return (ft_free(philo, philo->size));
-	pthread_mutex_init(&ctrl, NULL);
-	pthread_mutex_init(&msg, NULL);
-	philo->msg = &msg;
-	philo->control = &ctrl;
 	if (!ft_startphilo(philo, philo->size))
 	{
 		printf("pthread_create err!\n");

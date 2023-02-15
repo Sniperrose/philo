@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galtange <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 13:30:33 by galtange          #+#    #+#             */
-/*   Updated: 2023/02/08 13:31:34 by galtange         ###   ########.fr       */
+/*   Created: 2023/02/12 18:34:17 by galtange          #+#    #+#             */
+/*   Updated: 2023/02/12 18:35:36 by galtange         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,11 @@ int	ft_timestamp(struct timeval start)
 	return (ms);
 }
 
-void	ft_printstat(t_data *philo, char *str)
+void	ft_printstatus(t_data *philo, char *msg)
 {
-	// pthread_mutex_lock(philo->msg);
-	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
-	// pthread_mutex_unlock(philo->msg);
-}
-
-void	ft_print(t_data *philo, char *str)
-{
-	pthread_mutex_lock(philo->msg);
-	printf("%dms\tphilo_%d\t%s", ft_timestamp(philo->t_start), philo->id, str);
-	pthread_mutex_unlock(philo->msg);
-
+	pthread_mutex_lock(philo->message);
+	printf("%dms\t", ft_timestamp(philo->t_start));
+	printf("ph'%d\t", philo->id);
+	printf("%s", msg);
+	pthread_mutex_unlock(philo->message);
 }
