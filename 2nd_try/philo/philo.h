@@ -46,6 +46,7 @@ typedef struct s_data
 	pthread_t		thread;
 	pthread_t		death_check;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	fork_each;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*control;
 	pthread_mutex_t	*message;

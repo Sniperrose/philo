@@ -56,14 +56,15 @@ int	ft_init(t_arg *arg, t_data *philo, int size)
 	{
 		philo[i].id = i;
 		philo[i].arg = arg;
-		philo[i].r_sidefork_id = i;
-		philo[i].l_sidefork_id = (i + 1) % size;
+		// philo[i].r_sidefork_id = i;
+		// philo[i].l_sidefork_id = (i + 1) % size;
 		philo[i].n_eaten = 0;
 		philo[i].t_start = time;
 		philo[i].t_last = ft_timestamp(time);
 		philo[i].end = end;
 		philo[i].eat_later = 0;
 		pthread_mutex_init(&philo[i].eat, NULL);
+		// pthread_mutex_init(&philo[i].fork_each, NULL);
 		i++;
 	}
 	return (ft_init_mutex(philo, size));
