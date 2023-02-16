@@ -62,10 +62,11 @@ bool	ft_all_eat(t_data *ph);
 bool	ft_check_died(t_data *ph);
 void	*routine(void *philo);
 void	*ft_eat_alone(t_data *ph);
-void	ft_tookforsk(t_data *ph);
 void	ft_eat(t_data *philo);
 void	ft_sleep(t_data *philo);
-void	ft_put_theforks(t_data *philo);
+void	ft_resolve_1st_fork(t_data *ph);
+void	ft_resolve_2nd_fork(t_data *ph);
+void	ft_put_theforks(t_data *ph);
 int		ft_timestamp(struct timeval start);
 void	ft_printstatus(t_data *philo, char *msg);
 #endif

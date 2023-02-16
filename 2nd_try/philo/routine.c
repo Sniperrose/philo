@@ -34,11 +34,14 @@ void	*routine(void *philo)
 		pthread_mutex_lock(ph->control);
 		if (ph->end[0] == 1 || ph->end[1] == 1)
 		{
+			// pthread_mutex_unlock(&ph->forks[ph->r_sidefork_id]);
+			// pthread_mutex_unlock(&ph->forks[ph->l_sidefork_id]);
 			pthread_mutex_unlock(ph->control);
 			break ;
 		}
 		pthread_mutex_unlock(ph->control);
-		ft_tookforsk(ph);
+		ft_resolve_1st_fork(ph);
+		ft_resolve_2nd_fork(ph);
 		ft_eat(ph);
 		ft_put_theforks(ph);
 		ft_sleep(ph);

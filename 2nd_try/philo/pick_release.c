@@ -26,19 +26,45 @@
 // 	ft_printstatus(ph, "has taken a fork\n");
 // }
 
-void	ft_tookforsk(t_data *ph)
+int	ft_check_fork(pthread_mutex_t fork)
+{
+	if (pthread_mutex_lock(&fork) != 0)
+	{
+		// pthread_mutex_unlock(&fork);
+		return (0);
+	}
+	pthread_mutex_unlock(&fork);
+	return (1);
+}
+
+void	ft_tookforsk_1st(t_data *ph)
 {
 	pthread_mutex_lock(&ph->forks[ph->r_sidefork_id]);
 	ft_printstatus(ph, "has taken a fork\n");
+}
+
+void	ft_tookforsk_2nd(t_data *ph)
+{
 	pthread_mutex_lock(&ph->forks[ph->l_sidefork_id]);
 	ft_printstatus(ph, "has taken a fork\n");
+}
+
+void ft_resolve_1st_fork(t_data *ph)
+{
+	if (ph->id % 2 == 0)
+		ft_tookforsk_1st(ph);
+}
+
+void ft_resolve_2nd_fork(t_data *ph)
+{
+	if (ph->id % 2 == 0)
+		ft_tookforsk_2nd(ph);
 }
 
 void	ft_put_theforks(t_data *philo)
 {
 	pthread_mutex_unlock(&philo->forks[philo->r_sidefork_id]);
 	pthread_mutex_unlock(&philo->forks[philo->l_sidefork_id]);
-	usleep(100);
 	// pthread_mutex_lock(philo->control);
 	// philo->eat_later = 1;
 	// pthread_mutex_unlock(philo->control);
