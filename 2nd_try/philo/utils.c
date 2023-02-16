@@ -72,7 +72,7 @@ void	ft_printstatus(t_data *philo, char *msg)
 		return ;
 	}
 	printf("%d ", ft_timestamp(philo->t_start));
-	printf("%d ", philo->id);
+	printf("%d ", philo->id + 1);
 	printf("%s", msg);
 	pthread_mutex_unlock(philo->control);
 	pthread_mutex_unlock(philo->message);

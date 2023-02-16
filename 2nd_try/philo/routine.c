@@ -12,78 +12,39 @@
 
 #include "philo.h"
 
-void	*ft_eat_alone(t_data *ph)
-{
-	pthread_mutex_lock(&ph->forks[ph->r_sidefork_id]);
-	ft_printstatus(ph, "has taken a fork\n");
-	pthread_mutex_unlock(&ph->forks[ph->r_sidefork_id]);
-	return (NULL);
-}
-
-pthread_mutex_t	*ft_resolve_s_fork(t_data *philo)
-{
-	if (philo->id % 2 == 0)
-	{
-		if (philo->id == philo->arg->size - 1)
-		{
-			return (&philo->forks[0]);
-		}
-		return (&philo->forks[philo->id + 1]);
-	}
-	return (&philo->forks[philo->id]);
-}
-
-pthread_mutex_t	*ft_resolve_f_fork(t_data *philo)
-{
-	if (philo->id % 2 == 0)
-	{
-		return (&philo->forks[philo->id]);
-	}
-	if (philo->id == philo->arg->size - 1)
-	{
-		return (&philo->forks[0]);
-	}
-	return (&philo->forks[philo->id + 1]);
-}
-
+// void	*ft_eat_alone(t_data *ph)
+// {
+// 	pthread_mutex_lock(&ph->forks[ph->r_sidefork_id]);
+// 	ft_printstatus(ph, "has taken a fork\n");
+// 	pthread_mutex_unlock(&ph->forks[ph->r_sidefork_id]);
+// 	return (NULL);
+// }
 
 void	*routine(void *philo)
 {
-	t_data	*ph;
-	pthread_mutex_t *f_fork;
-	pthread_mutex_t *s_fork;
+	t_data			*ph;
+	pthread_mutex_t	*f_fork;
+	pthread_mutex_t	*s_fork;
 
 	ph = (t_data *)philo;
 	f_fork = ft_resolve_f_fork(ph);
-	// if (ph->arg->size == 1)
-	// 	return (NULL);
 	s_fork = ft_resolve_s_fork(ph);
 	if ((ph->id % 2) != 0)
 		usleep(15000);
 	while (1)
 	{
 		pthread_mutex_lock(ph->control);
-		if (ph->end[0] == 1 || ph->end[1] == 1)
+		if (ph->end[0] == 1 || ph->end[1] == 1 || ph->arg->size == 1)
 		{
 			pthread_mutex_unlock(ph->control);
 			break ;
 		}
 		pthread_mutex_unlock(ph->control);
-		pthread_mutex_lock(f_fork);
-		ft_printstatus(ph, "has taken a fork\n");
-		if (ph->arg->size == 1)
-		{
-			pthread_mutex_unlock(f_fork);
-			return (NULL);
-		}
-		pthread_mutex_lock(s_fork);
-		ft_printstatus(ph, "has taken a fork\n");
+		ft_take_forks(ph, f_fork, s_fork);
 		ft_eat(ph);
-		pthread_mutex_unlock(f_fork);
-		pthread_mutex_unlock(s_fork);
+		ft_put_forks(f_fork, s_fork);
 		ft_sleep(ph);
-		ft_printstatus(philo, "is thinking\n");
-		usleep(100);
+		ft_thinking(ph);
 	}
 	return (NULL);
 }

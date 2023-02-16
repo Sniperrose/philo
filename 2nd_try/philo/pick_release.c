@@ -6,89 +6,48 @@
 /*   By: galtange <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:50:35 by galtange          #+#    #+#             */
-/*   Updated: 2023/02/12 19:51:33 by galtange         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:10:27 by galtange         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// void	ft_tookforsk(t_data *ph)
-// {
-// 	pthread_mutex_lock(&ph->forks[ph->r_sidefork_id]);
-// 	pthread_mutex_lock(ph->control);
-// 	if (ph->eat_later == 1)
-// 	{
-// 		usleep(1000);
-// 		ph->eat_later = 0;
-// 	}
-// 	pthread_mutex_unlock(ph->control);
-// 	pthread_mutex_lock(&ph->forks[ph->l_sidefork_id]);
-// 	ft_printstatus(ph, "has taken a fork\n");
-// }
-
-int	ft_check_fork(pthread_mutex_t fork)
+pthread_mutex_t	*ft_resolve_f_fork(t_data *philo)
 {
-	if (pthread_mutex_lock(&fork) != 0)
+	if (philo->id % 2 == 0)
 	{
-		// pthread_mutex_unlock(&fork);
-		return (0);
+		return (&philo->forks[philo->id]);
 	}
-	pthread_mutex_unlock(&fork);
-	return (1);
-}
-
-void	ft_tookforsk_1st(t_data *ph, pthread_mutex_t *fork)
-{
-	pthread_mutex_lock(fork);
-	ft_printstatus(ph, "has taken a fork\n");
-}
-
-void	ft_tookforsk_2nd(t_data *ph, pthread_mutex_t *fork)
-{
-	pthread_mutex_lock(fork);
-	ft_printstatus(ph, "has taken a fork\n");
-}
-
-// void ft_resolve_1st_fork(t_data *ph)
-// {
-// 	// if (ph->id % 2 == 0)
-// 	// 	usleep(1000);
-// 	ft_tookforsk_1st(ph, &ph->forks[ph->r_sidefork_id]);  //0
-// }
-
-// void ft_resolve_2nd_fork(t_data *ph)
-// {
-// 	// if (ph->id % 2 == 0)
-// 	// 	usleep(1000);
-// 	ft_tookforsk_2nd(ph, &ph->forks[ph->l_sidefork_id]); //0
-// }
-
-void	ft_put_theforks(t_data *philo)
-{
-	pthread_mutex_unlock(&philo->forks[philo->r_sidefork_id]);
-	pthread_mutex_unlock(&philo->forks[philo->l_sidefork_id]);
-	// pthread_mutex_lock(philo->control);
-	// philo->eat_later = 1;
-	// pthread_mutex_unlock(philo->control);
-}
-
-void	ft_eat(t_data *philo)
-{
-	pthread_mutex_lock(&philo->eat);
-	if (philo->n_eaten == philo->arg->n_eat)
+	if (philo->id == philo->arg->size - 1)
 	{
-		pthread_mutex_unlock(&philo->eat);
-		return;		
+		return (&philo->forks[0]);
 	}
-	philo->n_eaten++;
-	ft_printstatus(philo, "is eating\n");
-	philo->t_last = ft_timestamp(philo->t_start);
-	pthread_mutex_unlock(&philo->eat);
-	usleep(philo->arg->eat * 1000);
+	return (&philo->forks[philo->id + 1]);
 }
 
-void	ft_sleep(t_data *philo)
+pthread_mutex_t	*ft_resolve_s_fork(t_data *philo)
 {
-	ft_printstatus(philo, "is sleeping\n");
-	usleep(philo->arg->sleep * 1000);
+	if (philo->id % 2 == 0)
+	{
+		if (philo->id == philo->arg->size - 1)
+		{
+			return (&philo->forks[0]);
+		}
+		return (&philo->forks[philo->id + 1]);
+	}
+	return (&philo->forks[philo->id]);
+}
+
+void	ft_take_forks(t_data *philo, pthread_mutex_t *f, pthread_mutex_t *s)
+{
+	pthread_mutex_lock(f);
+	ft_printstatus(philo, "has taken a fork\n");
+	pthread_mutex_lock(s);
+	ft_printstatus(philo, "has taken a fork\n");
+}
+
+void	ft_put_forks(pthread_mutex_t *f, pthread_mutex_t *s)
+{
+	pthread_mutex_unlock(f);
+	pthread_mutex_unlock(s);
 }

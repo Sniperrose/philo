@@ -22,7 +22,6 @@ int	ft_free(t_data *philo)
 	while (i < size)
 	{
 		pthread_mutex_destroy(&philo[i].eat);
-		pthread_mutex_destroy(&philo[i].fork_each);
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}

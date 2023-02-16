@@ -6,6 +6,7 @@ SRCS =	main.c\
 		free.c\
 		routine.c\
 		pick_release.c\
+		eat_to_sleep.c\
 
 OBJS = ${SRCS:.c=.o}
 
